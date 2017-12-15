@@ -1,0 +1,37 @@
+% ref: https://tex.stackexchange.com/questions/58130/biblatex-output-like-bibtexs-unsrt-style
+
+\DeclareFieldFormat
+  [article,inbook,incollection,inproceedings,patent,thesis,unpublished]
+  {title}{#1}
+
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{%
+  }{%
+    \printtext{\bibstring{in}\intitlepunct}%
+  }%
+}
+
+\DeclareFieldFormat{pages}{#1}
+\DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
+
+\renewbibmacro*{volume+number+eid}{%
+  \setunit{\addcomma\space}%  
+  \printfield{volume}%
+  \printfield{number}%
+  \setunit{\addcomma\space}%
+  \printfield{eid}%
+  \setunit{\addcolon}%
+  \printfield{pages}}
+
+\renewbibmacro*{issue+date}{%
+  \setunit{\addcomma\space}%
+  \iffieldundef{issue}
+    {\usebibmacro{date}}
+    {\printfield{issue}%
+     \setunit*{\addspace}%
+     \usebibmacro{date}}%
+\newunit}
+
+\renewbibmacro*{note+pages}{%
+  \printfield{note}%
+  \newunit}
